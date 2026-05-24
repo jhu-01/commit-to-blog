@@ -38,6 +38,28 @@
   margin-bottom: 16px;
 }
 
+.metaLeft {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.statusBadge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.statusBadge.published {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
 .tag {
   font-size: 12px;
   background-color: var(--color-tag-bg);
@@ -85,13 +107,21 @@
   font-weight: 600;
 }
 
-.editBadge {
+.publishToggle {
   background: none;
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   font-size: 12px;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 4px;
-  color: var(--color-text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.publishToggle:hover {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .emptyCard {

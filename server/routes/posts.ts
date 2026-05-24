@@ -13,6 +13,7 @@ interface Post {
   owner: string;
   repo: string;
   createdAt: string;
+  published: boolean;
 }
 
 /**
@@ -69,11 +70,45 @@ router.post('/', (req: Request, res: Response): void => {
       owner,
       repo,
       createdAt: new Date().toISOString(),
+      published: false,
     };
 
     posts.push(newPost);
     fs.writeFileSync(POSTS_FILE, JSON.stringify(posts, null, 2), 'utf-8');
     res.status(201).json(newPost);
+  } catch (error) {
+    console.error('Failed to save post:', error);
+    res.status(500).json({ error: 'Failed to save post' });
+  }
+});
+
+/**
+ * PUT /api/posts/:id
+ * 포스트 수정 (내용 변경 또는 발행 상태 토글)
+ */
+router.put('/:id', (req: Request, res: Response): void => {
+  const { id } = req.params;
+  const updates = req.body; // { title, draft, summary, published }
+
+  try {
+    ensureFileExists();
+    const rawData = fs.readFileSync(POSTS_FILE, 'utf-8');
+    const cleanData = rawData.replace(/^\uFEFF/, '').trim();
+    let posts: Post[] = cleanData ? JSON.parse(cleanData) : [];
+
+    const postIndex = posts.findIndex((p) => p.id === id);
+    if (postIndex === -1) {
+      res.status(404).json({ error: 'Post not found' });
+      return;
+    }
+
+    posts[postIndex] = {
+      ...posts[postIndex],
+      ...updates,
+    };
+
+    fs.writeFileSync(POSTS_FILE, JSON.stringify(posts, null, 2), 'utf-8');
+    res.json(posts[postIndex]);
   } catch (error) {
     console.error('Failed to save post:', error);
     res.status(500).json({ error: 'Failed to save post' });

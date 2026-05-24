@@ -9,6 +9,7 @@ interface Post {
   owner: string;
   repo: string;
   createdAt: string;
+  published: boolean;
 }
 
 interface Props {
@@ -19,8 +20,8 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
+  const fetchPosts = async () => {
+    setIsLoading(true);
       try {
         const response = await fetch('http://localhost:3001/api/posts');
         if (response.ok) {
@@ -32,9 +33,27 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
       } finally {
         setIsLoading(false);
       }
-    };
+  };
+
+  useEffect(() => {
     fetchPosts();
   }, []);
+
+  const handleTogglePublish = async (e: React.MouseEvent, post: Post) => {
+    e.stopPropagation(); // 카드 클릭 이벤트(편집) 방지
+    try {
+      const response = await fetch(`http://localhost:3001/api/posts/${post.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ published: !post.published }),
+      });
+      if (response.ok) {
+        fetchPosts(); // 목록 갱신
+      }
+    } catch (error) {
+      console.error('Failed to toggle status:', error);
+    }
+  };
 
   if (isLoading) return <div className={styles.loading}>Loading saved posts...</div>;
 
@@ -45,14 +64,26 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
         {posts.map((post) => (
           <div key={post.id} className={styles.card} onClick={() => onEditPost(post)}>
             <div className={styles.cardHeader}>
-              <span className={styles.tag}>{post.repo}</span>
+              <div className={styles.metaLeft}>
+                <span className={styles.tag}>{post.repo}</span>
+                <span className={`${styles.statusBadge} ${post.published ? styles.published : ''}`}>
+                  {post.published ? 'Published' : 'Draft'}
+                </span>
+              </div>
               <span className={styles.date}>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
             <h2 className={styles.title}>{post.title}</h2>
             <p className={styles.summary}>{post.summary}</p>
             <div className={styles.footer}>
               <span className={styles.author}>{post.owner}</span>
-              <button className={styles.editBadge}>Edit Draft</button>
+              <div className={styles.actions}>
+                <button 
+                  className={styles.publishToggle} 
+                  onClick={(e) => handleTogglePublish(e, post)}
+                >
+                  {post.published ? 'Unpublish' : 'Publish'}
+                </button>
+              </div>
             </div>
           </div>
         ))}
