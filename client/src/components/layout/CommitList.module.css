@@ -6,11 +6,24 @@
   padding: 24px;
 }
 
+.headerArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
 .title {
   font-size: var(--size-h2);
   font-weight: 700;
-  margin-bottom: 24px;
   color: var(--color-text-primary);
+  margin: 0;
+}
+
+.count {
+  font-size: 12px;
+  color: var(--color-accent-blue);
+  font-weight: 600;
 }
 
 .timeline {
@@ -24,17 +37,45 @@
 
 .commitItem {
   position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: -12px; /* 패딩 보정 */
+}
+
+.commitItem:hover {
+  background-color: var(--color-bg-muted);
+}
+
+.selected {
+  border-color: var(--color-border-active);
+  background-color: var(--color-tag-bg);
+}
+
+.checkbox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
 }
 
 .dot {
   position: absolute;
-  left: -27px;
-  top: 4px;
+  left: -27px; /* timeline border 위치에 맞춤 */
+  top: 24px;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background-color: var(--color-bg-paper);
   border: 2px solid var(--color-primary);
+}
+
+.content {
+  flex: 1;
 }
 
 .header {
@@ -69,6 +110,28 @@
   padding: 2px 6px;
   border-radius: var(--border-radius-small);
   color: var(--color-text-secondary);
+}
+
+.actionArea {
+  position: sticky;
+  bottom: 0;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border-default);
+  background-color: var(--color-bg-paper);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summarizeButton {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
 .status, .empty {
