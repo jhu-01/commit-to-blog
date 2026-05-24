@@ -2,11 +2,60 @@
   width: 100%;
 }
 
+.pageHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.titleSection {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
 .pageTitle {
   font-size: var(--size-h1);
   font-weight: 700;
-  margin-bottom: 32px;
   color: var(--color-text-primary);
+  margin: 0;
+}
+
+.pageSubtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.newPostBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.newPostBtn:hover {
+  opacity: 0.8;
+}
+
+.plusIcon {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  margin-right: 4px;
+  color: white;
 }
 
 .grid {
@@ -145,6 +194,17 @@
   border-color: #DC2626;
 }
 
+.viewBtn {
+  background-color: var(--color-bg-muted);
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .publishToggle {
   background: none;
   border: 1px solid var(--color-primary);
@@ -162,11 +222,43 @@
   color: var(--color-primary-text);
 }
 
-.emptyCard {
-  grid-column: 1 / -1;
+.newDraftCard {
+  background-color: transparent;
   border: 2px dashed var(--color-border-default);
-  padding: 80px;
-  text-align: center;
   border-radius: var(--border-radius-base);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 300px;
+}
+
+.newDraftCard:hover {
+  border-color: var(--color-border-active);
+  background-color: var(--color-bg-muted);
+}
+
+.newDraftIcon {
+  font-size: 40px;
   color: var(--color-text-placeholder);
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.newDraftTitle {
+  font-size: var(--size-h2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.newDraftDesc {
+  font-size: var(--size-body);
+  color: var(--color-text-secondary);
+  letter-spacing: var(--letter-spacing-base);
 }

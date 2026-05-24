@@ -6,6 +6,7 @@ import CommitList from './components/layout/CommitList';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import PostCardList from './components/post/PostCardList';
 import Editor from './components/editor/Editor';
+import PostViewer from './components/post/PostViewer';
 
 interface GitHubRepo {
   id: number;
@@ -16,7 +17,7 @@ interface GitHubRepo {
   updated_at: string;
 }
 
-type ViewMode = 'posts' | 'selector' | 'commits' | 'editor';
+type ViewMode = 'posts' | 'selector' | 'commits' | 'editor' | 'viewer';
 
 function App() {
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepo | null>(null);
@@ -117,7 +118,16 @@ function App() {
       {isGenerating && <LoadingSpinner />}
 
       {viewMode === 'posts' && (
-        <PostCardList onEditPost={handleEditPost} />
+        <PostCardList 
+          onEditPost={handleEditPost} 
+          onViewPost={(post) => {
+            setCurrentTitle(post.title);
+            setCurrentDraft(post.draft);
+            setCurrentImageUrl(post.imageUrl || '');
+            setViewMode('viewer');
+          }}
+          onNewDraft={() => handleNavigate('selector')}
+        />
       )}
 
       {viewMode === 'selector' && (
@@ -132,6 +142,15 @@ function App() {
           owner={selectedRepo.full_name.split('/')[0]!} 
           repo={selectedRepo.name} 
           onSummarize={handleSummarize}
+        />
+      )}
+
+      {viewMode === 'viewer' && (
+        <PostViewer 
+          title={currentTitle}
+          content={currentDraft}
+          imageUrl={currentImageUrl}
+          onBack={() => setViewMode('posts')}
         />
       )}
 

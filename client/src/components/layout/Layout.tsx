@@ -13,6 +13,9 @@ export const Layout: React.FC<Props> = ({ children, currentView, onNavigate }) =
     <div className={styles.wrapper}>
       <Header currentView={currentView} onNavigate={onNavigate} />
       <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
+        <p>© 2026 Smart Blog. Built by jhu01. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

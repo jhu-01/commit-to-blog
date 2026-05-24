@@ -28,8 +28,14 @@
   --border-radius-small: 4px;
 
   /* Typography */
-  --font-main: 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-main: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
   --size-h1: 24px;
   --size-h2: 18px;
   --size-body: 14px;
+
+  /* Typography Refinement */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-base: -0.01em;
+  --line-height-base: 1.6;
 }

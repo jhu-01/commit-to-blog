@@ -15,9 +15,11 @@ interface Post {
 
 interface Props {
   onEditPost: (post: Post) => void;
+  onViewPost: (post: Post) => void;
+  onNewDraft: () => void;
 }
 
-export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
+export const PostCardList: React.FC<Props> = ({ onEditPost, onViewPost, onNewDraft }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -76,7 +78,17 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>Saved Posts</h1>
+      <div className={styles.pageHeader}>
+        <div className={styles.titleSection}>
+          <h1 className={styles.pageTitle}>저장된 포스트</h1>
+          <p className={styles.pageSubtitle}>AI가 생성한 초안과 백업된 커밋 로그 목록입니다.</p>
+        </div>
+        <button className={styles.newPostBtn} onClick={onNewDraft}>
+          <span className={styles.plusIcon}>+</span>
+          블로그 생성
+        </button>
+      </div>
+
       <div className={styles.grid}>
         {posts.map((post) => (
           <div key={post.id} className={styles.card} onClick={() => onEditPost(post)}>
@@ -108,6 +120,14 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
                     <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/>
                   </svg>
                 </button>
+                {post.published && (
+                  <button 
+                    className={styles.viewBtn} 
+                    onClick={(e) => { e.stopPropagation(); onViewPost(post); }}
+                  >
+                    View
+                  </button>
+                )}
                 <button 
                   className={styles.publishToggle} 
                   onClick={(e) => handleTogglePublish(e, post)}
@@ -118,13 +138,11 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
             </div>
           </div>
         ))}
-        {posts.length === 0 && (
-          <div className={styles.emptyCard}>
-            <div className={styles.emptyIcon}>📂</div>
-            <p>저장된 포스트가 없습니다.</p>
-            <span>New Draft 버튼을 눌러 첫 글을 작성해보세요!</span>
-          </div>
-        )}
+        <div className={styles.newDraftCard} onClick={onNewDraft}>
+          <div className={styles.newDraftIcon}>+</div>
+          <h2 className={styles.newDraftTitle}>새 초안 작성</h2>
+          <p className={styles.newDraftDesc}>커밋 로그를 불러와 포스트를 생성하세요</p>
+        </div>
       </div>
     </div>
   );
