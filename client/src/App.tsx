@@ -22,6 +22,7 @@ function App() {
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepo | null>(null);
   const [currentDraft, setCurrentDraft] = useState<string>('');
   const [currentTitle, setCurrentTitle] = useState<string>('');
+  const [currentImageUrl, setCurrentImageUrl] = useState<string>('');
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('posts');
@@ -36,6 +37,7 @@ function App() {
       setSelectedRepo(null);
     }
     setCurrentDraft('');
+    setCurrentImageUrl('');
     setEditingPostId(null);
     setViewMode(view);
   };
@@ -60,6 +62,7 @@ function App() {
       const data = await response.json();
       setCurrentDraft(data.draft);
       setCurrentTitle(`Blog post for ${selectedRepo.name}`);
+      setCurrentImageUrl(data.imageUrl || ''); // AI가 추천한 썸네일 적용
       setEditingPostId(null); // 신규 생성 모드
       setViewMode('editor');
     } catch (err) {
@@ -70,7 +73,7 @@ function App() {
     }
   };
 
-  const handleSavePost = async (title: string, content: string) => {
+  const handleSavePost = async (title: string, content: string, imageUrl: string) => {
     try {
       const isUpdate = !!editingPostId;
       const url = isUpdate 
@@ -84,6 +87,7 @@ function App() {
           title,
           draft: content,
           summary: content.substring(0, 150) + '...',
+          imageUrl,
           ...(isUpdate ? {} : {
             owner: selectedRepo?.full_name.split('/')[0] || 'Manual',
             repo: selectedRepo?.name || 'External',
@@ -103,6 +107,7 @@ function App() {
   const handleEditPost = (post: any) => {
     setCurrentTitle(post.title);
     setCurrentDraft(post.draft);
+    setCurrentImageUrl(post.imageUrl || '');
     setEditingPostId(post.id);
     setViewMode('editor');
   };
@@ -133,6 +138,8 @@ function App() {
       {viewMode === 'editor' && (
         <Editor 
           initialContent={currentDraft}
+          initialTitle={currentTitle}
+          initialImageUrl={currentImageUrl}
           onSave={handleSavePost}
           onCancel={() => setViewMode('posts')}
         />

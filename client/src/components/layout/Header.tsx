@@ -11,11 +11,15 @@ export const Header: React.FC<Props> = ({ currentView, onNavigate }) => {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="black"/>
-            <path d="M7 12L10 15L17 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.23 2.1a1.1 1.1 0 0 1 1.54 0l9.13 9.13a1.1 1.1 0 0 1 0 1.54l-9.13 9.13a1.1 1.1 0 0 1-1.54 0L2.1 12.77a1.1 1.1 0 0 1 0-1.54l9.13-9.13Z" fill="#F05032"/>
+            <circle cx="12" cy="15" r="2.5" fill="white"/>
+            <circle cx="8" cy="8.5" r="2" fill="white"/>
+            <path d="M8 10.5v3.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M8.5 13.5c1.5 1 2 1 3.5 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="14" cy="8.5" r="2" fill="white"/>
           </svg>
-          <span className={styles.title}>commit-to-blog</span>
+          <span className={styles.title}>Smart Blog</span>
         </div>
         
         <nav className={styles.nav}>

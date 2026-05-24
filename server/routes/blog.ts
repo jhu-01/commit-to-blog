@@ -85,17 +85,31 @@ router.post('/summarize', async (req: Request, res: Response): Promise<void> => 
 
     const systemInstruction = `You are a Senior Software Engineer and an expert Tech Blogger. 
     Your goal is to transform raw Git commit messages into a professional, engaging, and structured technical blog post in Korean.
-    Include sections: "Background & Problem", "Implementation Details", and "Reflection/Key Takeaways".`;
+    Include sections: "Background & Problem", "Implementation Details", and "Reflection/Key Takeaways".
+    
+    At the very end of your response, provide a descriptive English prompt for an AI image generator that represents the core theme of this post. 
+    It should be a high-quality, professional, 3D render or digital art style description.
+    Strictly use this format: "ImagePrompt: [description]".`;
     
     const contents = `${systemInstruction}\n\nAnalyze these commits from repository '${repo}' and write a technical blog post: ${JSON.stringify(commitSummaries)}`;
     
     const result = await client.generateContent(contents);
-    const draft = result.response.text();
+    const fullText = result.response.text();
+
+    // AI 이미지 생성용 프롬프트 추출
+    const promptMatch = fullText.match(/ImagePrompt:\s*(.+)/i);
+    const imagePrompt = promptMatch ? promptMatch[1].trim() : 'Software engineering abstract concept';
+    const draft = fullText.replace(/ImagePrompt:\s*(.+)/i, '').trim();
+    
+    // Pollinations AI 생성 엔진 URL 구성 (실시간 생성)
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=1024&height=768&nologo=true&enhance=true`;
 
     console.log('[AI 요약] 초안 생성 완료');
     res.json({ 
       draft,
-      summary: draft.substring(0, 150) + '...' // 목록용 요약문
+      summary: draft.substring(0, 150) + '...',
+      imageUrl,
+      imagePrompt
     });
   } catch (error: unknown) {
     console.error('❌ AI 요약 중 에러 발생:', error instanceof Error ? error.message : error);

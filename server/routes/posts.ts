@@ -14,6 +14,7 @@ interface Post {
   repo: string;
   createdAt: string;
   published: boolean;
+  imageUrl?: string;
 }
 
 /**
@@ -54,7 +55,7 @@ router.get('/', (_req: Request, res: Response): void => {
  * 새로운 포스트 저장
  */
 router.post('/', (req: Request, res: Response): void => {
-  const { title, draft, summary, owner, repo } = req.body;
+  const { title, draft, summary, owner, repo, imageUrl } = req.body;
 
   try {
     ensureFileExists();
@@ -71,6 +72,7 @@ router.post('/', (req: Request, res: Response): void => {
       repo,
       createdAt: new Date().toISOString(),
       published: false,
+      imageUrl,
     };
 
     posts.push(newPost);
@@ -112,6 +114,34 @@ router.put('/:id', (req: Request, res: Response): void => {
   } catch (error) {
     console.error('Failed to save post:', error);
     res.status(500).json({ error: 'Failed to save post' });
+  }
+});
+
+/**
+ * DELETE /api/posts/:id
+ * 특정 포스트 삭제
+ */
+router.delete('/:id', (req: Request, res: Response): void => {
+  const { id } = req.params;
+
+  try {
+    ensureFileExists();
+    const rawData = fs.readFileSync(POSTS_FILE, 'utf-8');
+    const cleanData = rawData.replace(/^\uFEFF/, '').trim();
+    let posts: Post[] = cleanData ? JSON.parse(cleanData) : [];
+
+    const filteredPosts = posts.filter((p) => p.id !== id);
+    
+    if (posts.length === filteredPosts.length) {
+      res.status(404).json({ error: 'Post not found' });
+      return;
+    }
+
+    fs.writeFileSync(POSTS_FILE, JSON.stringify(filteredPosts, null, 2), 'utf-8');
+    res.status(204).send();
+  } catch (error) {
+    console.error('Failed to delete post:', error);
+    res.status(500).json({ error: 'Failed to delete post' });
   }
 });
 

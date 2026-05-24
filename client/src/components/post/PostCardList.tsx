@@ -10,6 +10,7 @@ interface Post {
   repo: string;
   createdAt: string;
   published: boolean;
+  imageUrl?: string;
 }
 
 interface Props {
@@ -55,6 +56,22 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
     }
   };
 
+  const handleDeletePost = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (!window.confirm('이 포스트를 정말 삭제할까요?')) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/posts/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        fetchPosts();
+      }
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+    }
+  };
+
   if (isLoading) return <div className={styles.loading}>Loading saved posts...</div>;
 
   return (
@@ -73,10 +90,24 @@ export const PostCardList: React.FC<Props> = ({ onEditPost }) => {
               <span className={styles.date}>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
             <h2 className={styles.title}>{post.title}</h2>
+            {post.imageUrl && (
+              <div className={styles.thumbnailWrapper}>
+                <img src={post.imageUrl} alt={post.title} className={styles.thumbnail} />
+              </div>
+            )}
             <p className={styles.summary}>{post.summary}</p>
             <div className={styles.footer}>
               <span className={styles.author}>{post.owner}</span>
               <div className={styles.actions}>
+                <button 
+                  className={styles.deleteBtn} 
+                  onClick={(e) => handleDeletePost(e, post.id)}
+                  title="Delete post"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/>
+                  </svg>
+                </button>
                 <button 
                   className={styles.publishToggle} 
                   onClick={(e) => handleTogglePublish(e, post)}
