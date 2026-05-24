@@ -7,7 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client:dev": "npm run dev --prefix client",
+    "server:dev": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "install-all": "npm install && npm install --prefix client && npm install --prefix server"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/jhu-01/commit-to-blog/issues"
   },
-  "homepage": "https://github.com/jhu-01/commit-to-blog#readme"
+  "homepage": "https://github.com/jhu-01/commit-to-blog#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

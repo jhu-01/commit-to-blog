@@ -1,0 +1,35 @@
+:root {
+  /* Background */
+  --color-bg-default: #F8F9FA;
+  --color-bg-paper: #FFFFFF;
+  --color-bg-input: #FFFFFF;
+  --color-bg-muted: #F3F4F6;
+
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-placeholder: #9CA3AF;
+
+  /* Brand & Accent */
+  --color-primary: #000000;
+  --color-primary-text: #FFFFFF;
+  --color-accent-blue: #2563EB;
+
+  /* Status & Tag */
+  --color-tag-bg: #EFF6FF;
+  --color-tag-text: #1D4ED8;
+  --color-border-default: #E5E7EB;
+  --color-border-active: #000000;
+
+  /* Spacing & Layout */
+  --max-width: 1200px;
+  --header-height: 64px;
+  --border-radius-base: 8px;
+  --border-radius-small: 4px;
+
+  /* Typography */
+  --font-main: 'Pretendard', 'Noto Sans KR', sans-serif;
+  --size-h1: 24px;
+  --size-h2: 18px;
+  --size-body: 14px;
+}

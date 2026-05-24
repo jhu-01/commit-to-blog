@@ -1,7 +1,7 @@
 # 📅 1주차 개발 체크리스트: 기초 설계
 
 ## 프로젝트 기초 설정
-- [ ] **기술 스택 초기화**: Vite(React + TypeScript) 프론트엔드와 Express(Node.js) 백엔드 환경을 구축하고, `.env` 및 CORS 세팅을 완료합니다.
+- [x] **기술 스택 초기화**: Vite(React + TypeScript) 프론트엔드와 Express(Node.js) 백엔드 환경을 구축하고, `.env` 및 CORS 세팅을 완료합니다.
 
 
 ---
@@ -9,11 +9,11 @@
 # 📅 2주차 개발 체크리스트: LLM 연동 및 블로그 편집기 구현
 
 ## 프로젝트 기초 설정
-- [ ] **전체 레이아웃 구성**: CSS Modules를 활용하여 메인 컨테이너, 헤더, 사이드바(또는 네비게이션)의 기본 레이아웃 구조를 잡습니다.
-- [ ] **디렉토리 구조 설계**: Client/Server를 분리하고, 프론트엔드(`components/`, `hooks/`, `styles/`)와 백엔드(`routes/`, `utils/`) 도메인별 폴더 구조를 생성한 뒤 `gemini.md`를 배치합니다.
+- [x] **전체 레이아웃 구성**: CSS Modules를 활용하여 메인 컨테이너, 헤더, 사이드바(또는 네비게이션)의 기본 레이아웃 구조를 잡습니다.
+- [x] **디렉토리 구조 설계**: Client/Server를 분리하고, 프론트엔드(`components/`, `hooks/`, `styles/`)와 백엔드(`routes/`, `utils/`) 도메인별 폴더 구조를 생성한 뒤 `gemini.md`를 배치합니다.
 
 ## 백엔드 및 GitHub API 연동
-- [ ] **GitHub API 라우터 (Repository)**: Express에서 `.env`에 저장된 PAT(Personal Access Token)를 사용해 사용자의 Repository 목록을 안전하게 조회하는 API를 구현합니다.
+- [x] **GitHub API 라우터 (Repository)**: Express에서 `.env`에 저장된 PAT(Personal Access Token)를 사용해 사용자의 Repository 목록을 안전하게 조회하는 API를 구현합니다.
 - [ ] **브랜치/커밋 조회 API**: 프론트엔드에서 전달받은 레포지토리를 기반으로 브랜치 목록과 특정 브랜치의 커밋 로그를 가져오는 라우터를 구현합니다.
 - [ ] **API 에러 핸들링**: GitHub API의 Rate Limit 초과 및 인증 에러(401, 403)를 처리하는 Express 미들웨어/예외 처리 로직을 추가합니다.
 
