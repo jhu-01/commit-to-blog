@@ -1,0 +1,12 @@
+.wrapper {
+  min-height: 100vh;
+  background-color: var(--color-bg-default);
+}
+
+.main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+}
