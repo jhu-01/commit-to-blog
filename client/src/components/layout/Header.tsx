@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './Header.module.css';
 
-export const Header: React.FC = () => {
+interface Props {
+  currentView: string;
+  onNavigate: (view: 'posts' | 'selector') => void;
+}
+
+export const Header: React.FC<Props> = ({ currentView, onNavigate }) => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -14,8 +19,18 @@ export const Header: React.FC = () => {
         </div>
         
         <nav className={styles.nav}>
-          <button className={`${styles.navItem} ${styles.active}`}>Saved Posts</button>
-          <button className={styles.navItem}>New Draft</button>
+          <button 
+            className={`${styles.navItem} ${currentView === 'posts' ? styles.active : ''}`}
+            onClick={() => onNavigate('posts')}
+          >
+            Saved Posts
+          </button>
+          <button 
+            className={`${styles.navItem} ${currentView !== 'posts' ? styles.active : ''}`}
+            onClick={() => onNavigate('selector')}
+          >
+            New Draft
+          </button>
         </nav>
 
         <div className={styles.profile}>
